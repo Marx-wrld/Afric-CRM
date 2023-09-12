@@ -14,7 +14,7 @@ def signup(request):
             UserProfile.objects.create(user=user) #creating the user profile
 
             #redirecting to the login page
-            return redirect('/login/')
+            return redirect('/log-in/')
     else: 
         form = UserCreationForm()
     
