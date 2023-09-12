@@ -4,10 +4,23 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <script src="https://cdn.tailwindcss.com"></script>
+        <title>{% block title %}Afric CRM{% endblock %}</title>
     </head>
     <body>
-        <h1 class="text-3xl font-bold underline">
-            Hello world!
-        </h1>
+        <nav class="py-6 bg-teal-500 flex justify-between px-6">
+            <a href="/" class="text-white">Afric CRM</a>
+
+            <div>
+                <a href="/" class="py-4 px-6 bg-teal-600 text-white rounded-xl">Log in</a>
+                <a href="/" class="py-4 px-6 bg-teal-400 text-white rounded-xl">Sign up</a>
+            </div>
+        </nav>
+
+        {% block content %}
+        {% endblock %}
+
+        <footer class="py-8 text-center bg-gray-200">
+            <p class="text-xs text-gray-700">Copyright (c) 2023 - Afric CRM</p>
+        </footer>
     </body>
 </html>
