@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import AddLeadForm
 from django.shortcuts import redirect, get_object_or_404
 from .models import Lead
+from django.contrib import messages
 
 # Create your views here.
 @login_required
@@ -22,6 +23,15 @@ def leads_detail(request, pk):
     })
 
 @login_required
+def leads_delete(request, pk):
+    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+    lead.delete()
+
+    messages.success(request, 'Lead deleted successfully')
+
+    return redirect('leads_list')
+
+@login_required
 def add_lead(request):
     if request.method == 'POST':
         form = AddLeadForm(request.POST)
@@ -29,6 +39,8 @@ def add_lead(request):
             lead = form.save(commit=False)
             lead.created_by = request.user
             lead.save()
+
+            messages.success(request, 'Lead added successfully')
 
             return redirect('dashboard')
     else:
