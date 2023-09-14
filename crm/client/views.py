@@ -1,6 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Client
 from django.contrib.auth.decorators import login_required
+from .forms import AddClientForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -18,4 +20,23 @@ def clients_detail(request, pk):
 
     return render(request, 'client/clients_detail.html', {
         'client': client
+    })
+
+@login_required
+def clients_add(request):
+    if request.method == 'POST':
+        form = AddClientForm(request.POST)
+        if form.is_valid():
+            client= form.save(commit=False)
+            client.created_by = request.user
+            client.save()
+
+            messages.success(request, 'Client added successfully')
+
+            return redirect('clients_list')
+    else:
+         form = AddClientForm()
+
+    return render(request, 'client/clients_add.html', {
+        'form': form
     })
