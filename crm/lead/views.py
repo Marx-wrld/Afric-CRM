@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import AddLeadForm
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from .models import Lead
 
 # Create your views here.
@@ -11,6 +11,14 @@ def leads_list(request):
 
     return render(request, 'lead/leads_list.html', {
         'leads': leads
+    })
+
+@login_required
+def leads_detail(request, pk):
+    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+
+    return render(request, 'lead/leads_detail.html', {
+        'lead': lead
     })
 
 @login_required
