@@ -5,6 +5,7 @@ from django.shortcuts import redirect, get_object_or_404
 from .models import Lead
 from django.contrib import messages
 from client.models import Client
+from team.models import Team
 
 # Create your views here.
 @login_required
@@ -36,7 +37,7 @@ def leads_delete(request, pk):
 def leads_edit(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
 
-    if request.method == 'POST':
+    if request.method  == 'POST':
         form = AddLeadForm(request.POST, instance=lead)
         
         if form.is_valid():
@@ -57,8 +58,10 @@ def add_lead(request):
     if request.method == 'POST':
         form = AddLeadForm(request.POST)
         if form.is_valid():
+            team = Team.objects.filter(created_by=request.user)[0]
             lead = form.save(commit=False)
             lead.created_by = request.user
+            lead.team = team
             lead.save()
 
             messages.success(request, 'Lead added successfully')
@@ -74,13 +77,14 @@ def add_lead(request):
 @login_required
 def convert_to_client(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
-    
+    team = Team.objects.filter(created_by=request.user)[0]
+
     client = Client.objects.create(
         name=lead.name,
         email=lead.email,
         description=lead.description,
-        created_by=request.user
-
+        created_by=request.user,
+        team=team,
     )
 
     lead.converted_to_client = True
