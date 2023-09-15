@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from team.models import Team
 
 # Create your models here.
 class Lead(models.Model):
@@ -28,6 +29,7 @@ class Lead(models.Model):
     )
 
     #Creating the fields for the lead
+    team = models.ForeignKey(Team, related_name='leads', on_delete=models.CASCADE)
     name = models.CharField(max_length=255)
     email = models.EmailField()
     description = models.TextField(blank=True, null=True)
