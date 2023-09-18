@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import AddLeadForm
 from django.shortcuts import redirect, get_object_or_404
 from .models import Lead
-from django.contrib import messages
+from django.contrib import messages  
 from client.models import Client
 from team.models import Team
 

@@ -40,5 +40,8 @@ class Lead(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     modifeid_at = models.DateTimeField(auto_now=True) # Everytime we save this db model it will be automatically updated
 
+    class Meta:
+        ordering = ('name',)
+        
     def __str__(self):
         return self.name
