@@ -1,6 +1,8 @@
 from django.contrib.auth.forms import UserCreationForm #Will contain info on username, email and password
 from django.shortcuts import render, redirect
 from .models import UserProfile
+from django.contrib.auth.decorators import login_required
+from team.models import Team
 
 # Create your views here.
 def signup(request): 
@@ -12,6 +14,10 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             UserProfile.objects.create(user=user) #creating the user profile
+            
+            team = Team.objects.create(name='The Team Name', created_by=request.user) #creating the team
+            team.members.add(request.user) #adding the members
+            team.save()
 
             #redirecting to the login page
             return redirect('/log-in/')
@@ -19,3 +25,10 @@ def signup(request):
         form = UserCreationForm()
     
     return render(request, 'userprofile/signup.html', {'form': form})
+
+@login_required
+def myaccount(request):
+    team = Team.objects.filter(created_by=request.user)[0]
+    return render(request, 'userprofile/myaccount.html', {
+        'team': team
+    })  
