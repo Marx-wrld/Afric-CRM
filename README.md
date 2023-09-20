@@ -1,7 +1,7 @@
 # Afric-CRM
 Implementing a customer relationship management system using Django, that can help business owners track and manage relationships with customers.
 
-### Creating Team
+### Creating a Team using the python shell 
 
 ```
 >>> from team.models import Team
