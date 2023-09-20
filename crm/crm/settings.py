@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'userprofile',
     'client',
     'team',
+    'tailwind',
 ]
 
 MIDDLEWARE = [
