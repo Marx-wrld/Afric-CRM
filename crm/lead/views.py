@@ -31,7 +31,7 @@ def leads_delete(request, pk):
 
     messages.success(request, 'Lead deleted successfully')
 
-    return redirect('leads_list')
+    return redirect('leads:list')
 
 @login_required
 def leads_edit(request, pk):
@@ -45,7 +45,7 @@ def leads_edit(request, pk):
 
             messages.success(request, 'Lead updated successfully')
 
-            return redirect('leads_list')
+            return redirect('leads:list')
     else:
         form = AddLeadForm(instance=lead)
     
@@ -95,4 +95,4 @@ def convert_to_client(request, pk):
 
     messages.success(request, 'Lead converted to client successfully')
   
-    return redirect('leads_list')
+    return redirect('leads:list')
