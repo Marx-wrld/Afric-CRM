@@ -1,7 +1,7 @@
 from django.urls import path
 from .import views
 
-app_name = 'clients' #replacing the functional views with the client based views
+app_name = 'clients' #Adding name spaces to all the apps
 
 urlpatterns = [
     path('', views.clients_list, name='list'),
