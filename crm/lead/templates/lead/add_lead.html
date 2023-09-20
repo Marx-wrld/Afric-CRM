@@ -4,8 +4,11 @@
 
 {% block content %}
     <div>
-        <h1 class="text-xl">Add Lead</h1>
+        <h1 class="mt-6 px-6 text-xl">Add Lead</h1>
 
+        {% if team.plan.max_leads > team.leads.all|length %}
+        <!-- checking how many leads we have for this team -->
+        <!-- Total Leads: {{ team.leads.all|length }} -->
         <form action="." method="POST">
             {% csrf_token %}
 
@@ -15,5 +18,10 @@
                 Submit
             </button>
         </form>
+        {% else %}
+            <div class="mt-6 mb-6 px-10 py-4 bg-red-400 rounded-xl text-white">
+                You've reached the maximum number of leads. Upgrade your plan!
+            </div>
+        {% endif %}
     </div> 
 {% endblock %}

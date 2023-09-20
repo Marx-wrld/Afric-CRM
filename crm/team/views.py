@@ -17,7 +17,7 @@ def edit_team(request, pk):
 
             messages.success(request, 'The changes were saved successfully!')
 
-            return redirect('myaccount')
+            return redirect('userprofile:myaccount')
     else:
         form = TeamForm(instance=team)
 

@@ -7,7 +7,7 @@
         <h1 class="px-6 mt-4 mb-4 text-xl">Clients</h1>
 
         <div class="px-4">
-            <a href="{% url 'clients_add' %}" class="inline-block py-4 px-6 bg-teal-600 text-white rounded-xl">Add Client</a>
+            <a href="{% url 'clients:add' %}" class="inline-block py-4 px-6 bg-teal-600 text-white rounded-xl">Add Client</a>
         </div>
 
         {% if clients %}
@@ -19,7 +19,7 @@
         {% for client in clients %}
             <div class="flex justify-between">
                 <p class="py-2 px-6 w-full {% cycle 'bg-gray-100' '' %}">
-                   <a href="{% url 'clients_detail' client.id %}">{{ client.name }}</a> 
+                   <a href="{% url 'clients:detail' client.id %}">{{ client.name }}</a> 
                 </p>
             </div>   
             {% endfor %}
