@@ -20,8 +20,10 @@ Implementing a customer relationship management system using Django, that can he
 <User: marx>
 >>> team.save()
 ```
-Installing tailwind using npm in django
+### Installing tailwind using npm in Django
+
 - Inside the main project type:-
+```
 1. npm init then
 2. npm install -D tailwindcss
 3. npx tailwindcss init
@@ -34,3 +36,4 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
         BASE_DIR / "static"
 ]
+```
