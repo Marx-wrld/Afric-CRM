@@ -9,7 +9,7 @@ from .models import Lead
 from django.contrib import messages  
 from client.models import Client
 from team.models import Team
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 # Create your views here.
 # Using class based views rather than function based views
@@ -25,13 +25,16 @@ class LeadListView(ListView): # list based view for leads list
         queryset = super(LeadListView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, converted_to_client=False)
 
-@login_required
-def leads_detail(request, pk):
-    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
+class LeadDetailView(DetailView):
+    model = Lead
 
-    return render(request, 'lead/leads_detail.html', {
-        'lead': lead
-    })
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super(LeadDetailView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
 
 @login_required
 def leads_delete(request, pk):
