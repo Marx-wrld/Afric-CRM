@@ -22,7 +22,7 @@ Implementing a customer relationship management system using Django, that can he
 ```
 ### Installing tailwind using npm in Django
 
-- Inside the main project terminal type:-
+- Inside the main project terminal, run:-
 ```
 1. npm init then
 2. npm install -D tailwindcss
