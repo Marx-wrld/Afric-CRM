@@ -20,3 +20,17 @@ Implementing a customer relationship management system using Django, that can he
 <User: marx>
 >>> team.save()
 ```
+Installing tailwind using npm in django
+- Inside the main project type:-
+1. npm init then
+2. npm install -D tailwindcss
+3. npx tailwindcss init
+4. After editing the tailwind config file according to your project and adding the css directives to your main.css file in static.
+5. Type this in terminal - npx tailwindcss -i ./static/main.css -o ./static/main.min.css --watch
+6. Add the link file path in your index html page instead of the tailwind cdn
+E.g - <link rel="stylesheet" href="{% static 'main.min.css %}">
+7. Ensure you add the following in settings.py file -
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+        BASE_DIR / "static"
+]
