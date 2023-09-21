@@ -1,20 +1,29 @@
+from typing import Any
+from django import http
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from .forms import AddLeadForm
 from django.shortcuts import redirect, get_object_or_404
+from django.utils.decorators import method_decorator
 from .models import Lead
 from django.contrib import messages  
 from client.models import Client
 from team.models import Team
+from django.views.generic import ListView
 
 # Create your views here.
-@login_required
-def leads_list(request):
-    leads = Lead.objects.filter(created_by=request.user, converted_to_client=False)
+# Using class based views rather than function based views
 
-    return render(request, 'lead/leads_list.html', {
-        'leads': leads
-    })
+class LeadListView(ListView): # list based view for leads list
+    model = Lead
+    
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        queryset = super(LeadListView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, converted_to_client=False)
 
 @login_required
 def leads_detail(request, pk):
