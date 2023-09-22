@@ -25,10 +25,14 @@
 
         <hr class="my-4">
 
+        <form id="lead_delete_form" action="{% url 'leads:delete' lead.id %}"  method="POST">
+            {% csrf_token %}
+        </form>
+
         <div class="px-6">
             <a href="{% url 'leads:convert' lead.id %}" class="py-2 px-4 rounded-xl bg-blue-500 text-white">Convert to client</a>
             <a href="{% url 'leads:edit' lead.id %}" class="py-2 px-4 rounded-xl bg-teal-500 text-white">Edit</a>
-            <a href="{% url 'leads:delete' lead.id %}" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
+            <a href="#" onclick="document.getElementById('lead_delete_form').submit();" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
         </div>
 
         <hr class="my-4">

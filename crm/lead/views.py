@@ -9,7 +9,8 @@ from .models import Lead
 from django.contrib import messages  
 from client.models import Client
 from team.models import Team
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, DeleteView
+from django.urls import reverse_lazy
 
 # Create your views here.
 # Using class based views rather than function based views
@@ -36,15 +37,21 @@ class LeadDetailView(DetailView):
         queryset = super(LeadDetailView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
 
-@login_required
-def leads_delete(request, pk):
-    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
-    lead.delete()
+class LeadDeleteView(DeleteView):
+    model = Lead
+    success_url = reverse_lazy('leads:list')
 
-    messages.success(request, 'Lead deleted successfully')
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get_queryset(self):
+        queryset = super(LeadDeleteView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
 
-    return redirect('leads:list')
-
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+ 
 @login_required
 def leads_edit(request, pk):
     lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
