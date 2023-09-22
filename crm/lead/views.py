@@ -1,15 +1,12 @@
-from typing import Any
-from django import http
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from .forms import AddLeadForm
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from .models import Lead
 from django.contrib import messages  
 from client.models import Client
 from team.models import Team
-from django.views.generic import ListView, DetailView, DeleteView
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -51,50 +48,52 @@ class LeadDeleteView(DeleteView):
 
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
- 
-@login_required
-def leads_edit(request, pk):
-    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
 
-    if request.method  == 'POST':
-        form = AddLeadForm(request.POST, instance=lead)
-        
-        if form.is_valid():
-            form.save()
+class LeadUpdateView(UpdateView):
+    model = Lead
+    fields = ('name', 'email', 'description', 'priority', 'status')
+    success_url = reverse_lazy('leads:list')
 
-            messages.success(request, 'Lead updated successfully')
-
-            return redirect('leads:list')
-    else:
-        form = AddLeadForm(instance=lead)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
     
-    return render(request, 'lead/leads_edit.html', {
-        'form': form
-    })
+    def get_context_data(self, **kwargs):
+        context = super(LeadUpdateView, self).get_context_data(**kwargs)
+        context['title'] = 'Edit Lead'
 
-@login_required
-def add_lead(request):
-    team = Team.objects.filter(created_by=request.user)[0]
+        return context
     
-    if request.method == 'POST':
-        form = AddLeadForm(request.POST)
-        if form.is_valid():
-            team = Team.objects.filter(created_by=request.user)[0]
-            lead = form.save(commit=False)
-            lead.created_by = request.user
-            lead.team = team
-            lead.save()
+    def get_queryset(self):
+        queryset = super(LeadUpdateView, self).get_queryset()
+        return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
 
-            messages.success(request, 'Lead added successfully')
+class LeadCreateView(CreateView):
+    model = Lead
+    fields = ('name', 'email', 'description', 'priority', 'status')
+    success_url = reverse_lazy('leads:list')
 
-            return redirect('dashboard')
-    else:
-         form = AddLeadForm()
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get_context_data(self, **kwargs):
+        context = super(LeadCreateView, self).get_context_data(**kwargs)
+        team = Team.objects.filter(created_by=self.request.user)[0]
+        context['team'] = team
+        context['title'] = 'Add Lead'
 
-    return render(request, 'lead/add_lead.html', {
-        'form': form,
-        'team': team
-    })
+        return context
+
+    def form_valid(self, form):
+        team = Team.objects.filter(created_by=self.request.user)[0]
+
+        self.object = form.save(commit=False)
+        self.object.created_by = self.request.user
+        self.object.team = team
+        self.object.save()
+
+        return redirect(self.get_success_url())
 
 @login_required
 def convert_to_client(request, pk):
