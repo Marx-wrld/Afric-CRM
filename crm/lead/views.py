@@ -6,7 +6,7 @@ from .models import Lead
 from django.contrib import messages  
 from client.models import Client
 from team.models import Team
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView, View
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -95,22 +95,22 @@ class LeadCreateView(CreateView):
 
         return redirect(self.get_success_url())
 
-@login_required
-def convert_to_client(request, pk):
-    lead = get_object_or_404(Lead, created_by=request.user, pk=pk)
-    team = Team.objects.filter(created_by=request.user)[0]
+class ConvertToClientView(View):
+    def GET(self, request, *args, **kwargs):
+        lead = get_object_or_404(Lead, created_by=request.user, pk=self.kwargs.get('pk'))
+        team = Team.objects.filter(created_by=request.user)[0]
 
-    client = Client.objects.create(
-        name=lead.name,
-        email=lead.email,
-        description=lead.description,
-        created_by=request.user,
-        team=team,
-    )
+        client = Client.objects.create(
+            name=lead.name,
+            email=lead.email,
+            description=lead.description,
+            created_by=request.user,
+            team=team,
+        )
+        
+        lead.converted_to_client = True
+        lead.save()
 
-    lead.converted_to_client = True
-    lead.save()
+        messages.success(request, 'Lead converted to client successfully')
 
-    messages.success(request, 'Lead converted to client successfully')
-  
-    return redirect('leads:list')
+        return redirect('leads:list')
