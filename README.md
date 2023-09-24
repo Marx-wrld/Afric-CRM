@@ -8,6 +8,10 @@ In your terminal, run:-
 then
 - pip install virtualenv
 ```
+Finally, to create the virtual environment for our project run:-
+```
+- virtualenv crmenv
+```
 ### Creating a Team using the python shell 
 
 ```
