@@ -1,6 +1,13 @@
 # Afric-CRM
 Implementing a customer relationship management system using Django, that can help business owners track and manage relationships with customers.
+### Installing the Project
+```
+In your terminal, run:-
 
+- pip install django
+then
+- pip install virtualenv
+```
 ### Creating a Team using the python shell 
 
 ```
