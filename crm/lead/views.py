@@ -1,13 +1,14 @@
-from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from .models import Lead
 from django.contrib import messages  
-from client.models import Client
+from django.views import View
 from team.models import Team
-from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView, View
+from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
+from .forms import AddCommentForm
+from client.models import Client
 
 # Create your views here.
 # Using class based views rather than function based views
@@ -30,6 +31,12 @@ class LeadDetailView(DetailView):
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['form'] =  AddCommentForm()
+
+        return context
+    
     def get_queryset(self):
         queryset = super(LeadDetailView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
@@ -96,7 +103,12 @@ class LeadCreateView(CreateView):
         return redirect(self.get_success_url())
 
 class ConvertToClientView(View):
-    def GET(self, request, *args, **kwargs):
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
+    def get(self, request, *args, **kwargs):
         lead = get_object_or_404(Lead, created_by=request.user, pk=self.kwargs.get('pk'))
         team = Team.objects.filter(created_by=request.user)[0]
 
