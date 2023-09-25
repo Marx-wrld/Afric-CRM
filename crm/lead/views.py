@@ -112,7 +112,7 @@ class AddCommentView(View):
         if form.is_valid():
             team = Team.objects.filter(created_by=self.request.user)
             comment = form.save(commit=False)
-            comment.team = team
+            comment.team = team.first()
             comment.created_by = request.user
             comment.lead_id = pk
             comment.save()
