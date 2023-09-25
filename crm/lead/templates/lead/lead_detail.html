@@ -38,8 +38,16 @@
 
             <h2 class="text-xl">Comments</h2>
 
+            <!-- <div class="space-y-4">
+                {% for comment in lead.comments.all %}
+                    <div class="bg-gray-100 p-6 rounded-xl">
+                        {{ comment.content }}
+                    </div>
+                {% endfor %}
+            </div> -->
+
             <br>
-            <form action="." method="POST">
+            <form action="{% url 'leads:add_comment' lead.id %}" method="POST">
                 {% csrf_token %}
 
                 {{ form.as_p }}

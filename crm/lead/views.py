@@ -102,6 +102,23 @@ class LeadCreateView(CreateView):
 
         return redirect(self.get_success_url())
 
+
+class AddCommentView(View):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        
+        form = AddCommentForm(request.POST)
+
+        if form.is_valid():
+            team = Team.objects.filter(created_by=self.request.user)
+            comment = form.save(commit=False)
+            comment.team = team
+            comment.created_by = request.user
+            comment.lead_id = pk
+            comment.save()
+
+        return redirect('leads:detail', pk=pk)
+    
 class ConvertToClientView(View):
 
     @method_decorator(login_required)
