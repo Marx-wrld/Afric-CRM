@@ -47,6 +47,7 @@
                 {% endfor %}
             </div>
 
+            <br>
             <form action="{% url 'leads:add_comment' lead.id %}" method="POST">
                 {% csrf_token %}
 

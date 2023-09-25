@@ -25,18 +25,18 @@ def clients_detail(request, pk):
 
         if form.is_valid():
             comment = form.save(commit=False)
-            comment.form = team
+            comment.team = team
             comment.created_by = request.user
             comment.client = client
             comment.save()
 
-            return redirect('client/clients_detail.html', pk=pk)
+            return redirect('clients:detail', pk=pk)
     else:
         form = AddCommentForm()
 
     return render(request, "client/clients_detail.html", {
         'client': client,
-        'form': form,
+        'form': form
     })
 
 
