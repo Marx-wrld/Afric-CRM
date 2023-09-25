@@ -8,7 +8,7 @@ from team.models import Team
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from .forms import AddCommentForm
-from client.models import Client
+from client.models import Client, Comment as ClientComment
 
 # Create your views here.
 # Using class based views rather than function based views
@@ -139,6 +139,20 @@ class ConvertToClientView(View):
         
         lead.converted_to_client = True
         lead.save()
+
+        #converting lead comments to client comments
+
+        comments = lead.comments.all()
+
+        for comment in comments:
+            ClientComment.objects.create(
+                content=comment.content,
+                created_by=comment.created_by,
+                team=comment.team,
+                client=client,
+            )
+
+        #success message and redirect
 
         messages.success(request, 'Lead converted to client successfully')
 
