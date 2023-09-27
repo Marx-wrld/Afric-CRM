@@ -1,5 +1,5 @@
 # Afric-CRM
-Implementing a customer relationship management system using Django & tailwindcss , that can help business owners track and manage relationships with customers.
+Implementing a customer relationship management system using Django & tailwindcss(npm), that can help business owners track and manage relationships with customers.
 
 ### Installing the Project
 ```
