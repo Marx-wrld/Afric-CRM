@@ -8,6 +8,7 @@
 
         <div class="px-4">
             <a href="{% url 'clients:add' %}" class="inline-block py-4 px-6 bg-teal-600 text-white rounded-xl">Add Client</a>
+            <a href="{% url 'clients:export' %}" class="inline-block py-4 px-6 rounded-xl bg-teal-500 text-white">Export clients</a>
         </div>
 
         {% if clients %}

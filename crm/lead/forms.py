@@ -1,5 +1,5 @@
 from django import forms
-from .models import Comment, Lead
+from .models import Comment, Lead, LeadFile
 
 class AddLeadForm(forms.ModelForm):
     class Meta:
@@ -10,3 +10,8 @@ class AddCommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ('content',)
+
+class AddFileForm(forms.ModelForm):
+    class Meta:
+        model = LeadFile
+        fields = ('file',)

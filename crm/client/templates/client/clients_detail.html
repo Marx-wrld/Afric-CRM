@@ -20,6 +20,7 @@
         <hr class="my-4">
 
         <div class="px-6">
+            
             <a href="{% url 'clients:edit' client.id %}" class="py-2 px-4 rounded-xl bg-teal-500 text-white">Edit</a>
             <a href="{% url 'clients:delete' client.id %}" class="py-2 px-4 rounded-xl bg-red-500 text-white">Delete</a>
         </div>
@@ -44,6 +45,31 @@
                 {% csrf_token %}
 
                 {{ form.as_p }}
+
+                <br>
+                <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>
+            </form>
+        </div>
+
+        <hr class="my-4">
+        <div class="px-6">
+            <h2 class="mb-6 text-xl">Files</h2>
+
+            <div class="space-y-4">
+                {% for file in client.files.all %}
+                    <div class="bg-gray-100 py-6 px-6 rounded-xl">
+                        <p class="mb-2"><strong>{{ client.created_by }}</strong>@ {{ client.created_at }}</p>
+                        
+                        <a href="{{ file.file.url }}" target="_blank">Download</a>
+
+                    </div>
+                {% endfor %}
+            </div>
+
+            <form action="{% url 'clients:add_file' client.id %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ filesform.as_p }}
 
                 <br>
                 <button class="py-2 px-4 rounded-xl bg-blue-500 text-white">Submit</button>

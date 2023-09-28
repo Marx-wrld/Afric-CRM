@@ -1,17 +1,39 @@
+import csv
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from .models import Lead
+from django.http import HttpResponse
 from django.contrib import messages
 from django.views import View
 from team.models import Team
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
-from .forms import AddCommentForm
+from .forms import AddCommentForm, AddFileForm
 from client.models import Client, Comment as ClientComment
 
 # Create your views here.
 # Using class based views rather than function based views
+
+@login_required
+def leads_export(request):
+    leads = Lead.objects.filter(created_by=request.user)
+
+    #creating the Httpresponse object with the appropriate csv header
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="leads.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(['Client', 'Description', 'Created By', 'Created At'])
+
+    #looping through all the clients
+    for lead in leads:
+        writer.writerow([lead.name, lead.description, lead.created_by, lead.created_at])
+
+    return response
 
 class LeadListView(ListView): # list based view for leads list
     model = Lead
@@ -34,6 +56,7 @@ class LeadDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] =  AddCommentForm()
+        context['filesform'] = AddFileForm()
 
         return context
     
@@ -102,6 +125,21 @@ class LeadCreateView(CreateView):
 
         return redirect(self.get_success_url())
 
+class AddFileView(View):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        
+        form = AddFileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            team = Team.objects.filter(created_by=self.request.user)[0]
+            file = form.save(commit=False)
+            file.lead_id = pk
+            file.team = team
+            file.created_by = request.user
+            file.save()
+
+        return redirect('leads:detail', pk=pk)
 
 class AddCommentView(View):
     def post(self, request, *args, **kwargs):
