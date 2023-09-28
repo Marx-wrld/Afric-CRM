@@ -1,5 +1,7 @@
+import csv
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Client
+from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from .forms import AddClientForm, AddCommentForm, AddFileForm
 from django.contrib import messages
@@ -7,6 +9,25 @@ from team.models import Team
 
 # Create your views here.
 
+@login_required
+def clients_export(request):
+    clients = Client.objects.filter(created_by=request.user)
+
+    #creating the Httpresponse object with the appropriate csv header
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="clients.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(['Client', 'Description', 'Created By', 'Created At'])
+
+    #looping through all the clients
+    for client in clients:
+        writer.writerow([client.name, client.description, client.created_by, client.created_at])
+
+    return response
 
 @login_required
 def clients_list(request):
