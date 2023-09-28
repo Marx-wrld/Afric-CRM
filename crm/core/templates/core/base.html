@@ -11,24 +11,10 @@
         <title>{% block title %}Afric CRM{% endblock %}</title>
     </head>
     <body>
-        <nav class="py-6 bg-teal-500 flex justify-between px-6">
-            <a href="/" class="text-white">Afric CRM</a>
 
-            <div class="space-x-4">
-                <a href="{% url 'about' %}" class="text-white">About</a>
-                {% if request.user.is_authenticated %}
+        {% include 'core/partials/nav.html' %}
 
-                    <a href="{% url 'team:detail' team.id %}" class="text-white">{{ team.name }}</a>
-                    <a href="{% url 'dashboard:index' %}" class="py-4 px-6 bg-teal-600 text-white rounded-xl">Dashboard</a>
-                    <a href="{% url 'leads:list' %}" class="py-4 px-6 bg-teal-600 text-white rounded-xl">Leads</a>
-                    <a href="{% url 'clients:list' %}" class="py-4 px-6 bg-teal-600 text-white rounded-xl">Clients</a>
-                    <a href="{% url 'userprofile:myaccount' %}" class="py-4 px-6 bg-blue-500 text-white rounded-xl">My Account</a>
-                {% else %}
-                    <a href="{% url 'login' %}" class="py-4 px-6 bg-teal-600 text-white rounded-xl">Log in</a>
-                    <a href="{% url 'userprofile:signup' %}" class="py-4 px-6 bg-teal-400 text-white rounded-xl">Sign up</a>
-                {% endif %}
-            </div>
-        </nav>
+        
 
         {% if messages %}
             <div class="py-6 px-6">
@@ -43,8 +29,6 @@
         {% block content %}
         {% endblock %}
 
-        <footer class="py-8 text-center bg-gray-200">
-            <p class="text-xs text-gray-700">Copyright (c) 2023 - Afric CRM</p>
-        </footer>
+        {% include 'core/partials/footer.html' %}
     </body>
 </html>
