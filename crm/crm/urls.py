@@ -4,6 +4,7 @@ from django.conf.urls.static import static
 from django.contrib.auth import views
 from django.urls import path, include
 from core.views import index, about
+from userprofile.forms import LoginForm
 
 urlpatterns = [
     path('', index, name='index'),
@@ -13,7 +14,7 @@ urlpatterns = [
     path('dashboard/teams/', include('team.urls')),
     path('dashboard/', include('userprofile.urls')),
     path('about/', about, name='about'),
-    path('login/', views.LoginView.as_view(template_name='userprofile/login.html'), name='login'),
+    path('login/', views.LoginView.as_view(template_name='userprofile/login.html', authentication_form=LoginForm), name='login'),
     path('logout', views.LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
