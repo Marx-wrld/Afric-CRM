@@ -8,6 +8,7 @@
 
         <div class="px-4">
             <a href="{% url 'leads:add' %}" class="inline-block py-4 px-6 bg-teal-600 text-white rounded-xl">Add Lead</a>
+            <a href="{% url 'leads:export' %}" class="inline-block py-4 px-6 rounded-xl bg-teal-500 text-white">Export leads</a>
         </div>
 
         {% if object_list %}

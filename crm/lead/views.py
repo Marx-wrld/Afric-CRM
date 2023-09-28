@@ -1,9 +1,9 @@
-# import csv
+import csv
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
 from django.utils.decorators import method_decorator
 from .models import Lead
-# from django.http import HttpResponse
+from django.http import HttpResponse
 from django.contrib import messages
 from django.views import View
 from team.models import Team
@@ -14,6 +14,26 @@ from client.models import Client, Comment as ClientComment
 
 # Create your views here.
 # Using class based views rather than function based views
+
+@login_required
+def leads_export(request):
+    leads = Lead.objects.filter(created_by=request.user)
+
+    #creating the Httpresponse object with the appropriate csv header
+
+    response = HttpResponse(
+        content_type='text/csv',
+        headers={'Content-Disposition': 'attachment; filename="leads.csv"'},
+    )
+
+    writer = csv.writer(response)
+    writer.writerow(['Client', 'Description', 'Created By', 'Created At'])
+
+    #looping through all the clients
+    for lead in leads:
+        writer.writerow([lead.name, lead.description, lead.created_by, lead.created_at])
+
+    return response
 
 class LeadListView(ListView): # list based view for leads list
     model = Lead
