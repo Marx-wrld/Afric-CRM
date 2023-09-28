@@ -7,7 +7,7 @@ from django.views import View
 from team.models import Team
 from django.views.generic import ListView, DetailView, DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
-from .forms import AddCommentForm
+from .forms import AddCommentForm, AddFileForm
 from client.models import Client, Comment as ClientComment
 
 # Create your views here.
@@ -34,6 +34,7 @@ class LeadDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form'] =  AddCommentForm()
+        context['filesform'] = AddFileForm()
 
         return context
     
@@ -102,6 +103,21 @@ class LeadCreateView(CreateView):
 
         return redirect(self.get_success_url())
 
+class AddFileView(View):
+    def post(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        
+        form = AddFileForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            team = Team.objects.filter(created_by=self.request.user)[0]
+            file = form.save(commit=False)
+            file.lead_id = pk
+            file.team = team
+            file.created_by = request.user
+            file.save()
+
+        return redirect('leads:detail', pk=pk)
 
 class AddCommentView(View):
     def post(self, request, *args, **kwargs):
