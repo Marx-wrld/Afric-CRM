@@ -54,5 +54,5 @@ STATICFILES_DIRS = [
 
 ![2023-09-29 15_39_01-](https://github.com/Marx-wrld/Afric-CRM/assets/105711066/1fca42f3-8a8a-4a41-88bf-2fc56cf75a07)
 
-![2023-09-29 15_39_01-](https://github.com/Marx-wrld/Afric-CRM/assets/105711066/74818831-7b66-4851-83b6-efa3c0b227bb)
+![2023-09-29 15_39_26-](https://github.com/Marx-wrld/Afric-CRM/assets/105711066/6722b5bb-e945-4208-882e-2320f5485a43)
 
