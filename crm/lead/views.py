@@ -1,7 +1,7 @@
 import csv
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, get_object_or_404
-from django.utils.decorators import method_decorator
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import Lead
 from django.http import HttpResponse
 from django.contrib import messages
@@ -35,23 +35,17 @@ def leads_export(request):
 
     return response
 
-class LeadListView(ListView): # list based view for leads list
+class LeadListView(LoginRequiredMixin, ListView): # list based view for leads list
     model = Lead
     
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+    #Using class based views - loginRequiredMixin instead of the decorator login_required
 
     def get_queryset(self):
         queryset = super(LeadListView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, converted_to_client=False)
 
-class LeadDetailView(DetailView):
+class LeadDetailView(LoginRequiredMixin, DetailView):
     model = Lead
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -64,13 +58,9 @@ class LeadDetailView(DetailView):
         queryset = super(LeadDetailView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
 
-class LeadDeleteView(DeleteView):
+class LeadDeleteView(LoginRequiredMixin, DeleteView):
     model = Lead
     success_url = reverse_lazy('leads:list')
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
     
     def get_queryset(self):
         queryset = super(LeadDeleteView, self).get_queryset()
@@ -79,14 +69,10 @@ class LeadDeleteView(DeleteView):
     def get(self, request, *args, **kwargs):
         return self.post(request, *args, **kwargs)
 
-class LeadUpdateView(UpdateView):
+class LeadUpdateView(LoginRequiredMixin, UpdateView):
     model = Lead
     fields = ('name', 'email', 'description', 'priority', 'status')
     success_url = reverse_lazy('leads:list')
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
     
     def get_context_data(self, **kwargs):
         context = super(LeadUpdateView, self).get_context_data(**kwargs)
@@ -98,14 +84,10 @@ class LeadUpdateView(UpdateView):
         queryset = super(LeadUpdateView, self).get_queryset()
         return queryset.filter(created_by=self.request.user, pk=self.kwargs.get('pk'))
 
-class LeadCreateView(CreateView):
+class LeadCreateView(LoginRequiredMixin, CreateView):
     model = Lead
     fields = ('name', 'email', 'description', 'priority', 'status')
     success_url = reverse_lazy('leads:list')
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
     
     def get_context_data(self, **kwargs):
         context = super(LeadCreateView, self).get_context_data(**kwargs)
@@ -125,7 +107,7 @@ class LeadCreateView(CreateView):
 
         return redirect(self.get_success_url())
 
-class AddFileView(View):
+class AddFileView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         
@@ -141,7 +123,7 @@ class AddFileView(View):
 
         return redirect('leads:detail', pk=pk)
 
-class AddCommentView(View):
+class AddCommentView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         
@@ -157,11 +139,7 @@ class AddCommentView(View):
 
         return redirect('leads:detail', pk=pk)
     
-class ConvertToClientView(View):
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        return super().dispatch(*args, **kwargs)
+class ConvertToClientView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         lead = get_object_or_404(Lead, created_by=request.user, pk=self.kwargs.get('pk'))

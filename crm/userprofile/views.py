@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import UserCreationForm #Will contain info on username, email and password
+from .forms import SignUpForm
 from django.shortcuts import render, redirect
 from .models import UserProfile
 from django.contrib.auth.decorators import login_required
@@ -8,7 +8,7 @@ from team.models import Team
 def signup(request): 
     #checking if the form has been submitted
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
 
         #checking if the info is correct before saving it to the db
         if form.is_valid():
@@ -22,7 +22,7 @@ def signup(request):
             #redirecting to the login page
             return redirect('/log-in/')
     else: 
-        form = UserCreationForm()
+        form = SignUpForm()
     
     return render(request, 'userprofile/signup.html', {'form': form})
 
