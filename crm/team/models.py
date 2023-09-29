@@ -13,7 +13,7 @@ class Plan(models.Model):
         return self.name
     
 class Team(models.Model):
-    plan = models.ForeignKey(Plan, related_name='teams', on_delete=models.CASCADE)
+    plan = models.ForeignKey(Plan, related_name='teams', blank=True, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     members = models.ManyToManyField(User, related_name='teams') # So, that a team can have many members and a member can have many teams
     created_by = models.ForeignKey(User, related_name='created_teams', on_delete=models.CASCADE)
