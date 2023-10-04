@@ -19,7 +19,8 @@
                         
                         <p class="text-xs">Status: {{ lead.get_status_display }}</p>
                         <p class="text-xs">Status: {{ lead.get_priority_display }}</p>
-                        <a href="{% url 'leads:detail' lead.pk %}">Details</a>
+                        <hr class="mb-2">
+                        <button class="py-2 mb-2 px-4 rounded-xl bg-sky-500 text-white"><a href="{% url 'leads:detail' lead.pk %}">Details</a></button>
                 </div>
             {% endfor %}
 
@@ -30,11 +31,12 @@
 
             {% for client in clients %}
                 <div class="mb-2 client">
-                    <h3 class="font-semibold">
+                    <h3 class="font-semibold mb-2">
                         {{ client.name }}
                     </h3>
-                        
-                        <a href="{% url 'clients:detail' client.pk %}">Details</a>
+                    
+                    <button class="py-2 px-4 mb-2 rounded-xl bg-sky-500 text-white"><a href="{% url 'clients:detail' client.pk %}">Details</a></button>
+                    <hr class="mb-2">
                 </div>
             {% endfor %}
         </div>
