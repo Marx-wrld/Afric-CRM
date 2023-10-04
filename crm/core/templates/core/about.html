@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %}
 
+{% load static %} <!--Loading the tailwind static files} -->
+
 {% block title %}About{% endblock %}
 
 {% block content %}
@@ -40,28 +42,31 @@
                 <div class="flex flex-wrap justify-center space-x-10">
 
                     <div class="max-w-xs rounded-lg overflow-hidden shadow-lg my-4">
-                        <img src="./images/john_doe.jpg" alt="John Doe" class="w-full h-32 object-cover">
+                        <img src="{% static 'images/john_doe.jpg' %}" alt="John Doe" class="w-full h-45 object-cover">
                         <div class="px-6 py-4">
                             <h3 class="text-xl font-semibold">John Doe</h3>
                             <p class="text-gray-700">CEO & Co-Founder</p>
+                            <hr class="space-y-4">
                             <p class="text-gray-700">John is the driving force behind our CRM system. With years of experience in business development, he understands the critical role that relationships play in achieving business goals. His vision and commitment to excellence inspire our team to continually innovate.</p>
                         </div>
                     </div>
 
                     <div class="max-w-xs rounded-lg overflow-hidden shadow-lg my-4">
-                        <img src="./images/jane_smith.jpg" alt="Jane Smith" class="w-full h-32 object-cover">
+                        <img src="{% static 'images/jane_smith.jpg' %}" alt="Jane Smith" class="w-full h-45 object-cover">
                         <div class="px-6 py-4">
                             <h3 class="text-xl font-semibold">Jane Smith</h3>
                             <p class="text-gray-700">Lead Developer</p>
+                            <hr class="space-y-4">
                             <p class="text-gray-700">Jane leads our development team, turning innovative ideas into practical CRM solutions. Her technical expertise and passion for user experience ensure that our CRM system is not only powerful but also user-friendly.</p>
                         </div>
                     </div>
 
                     <div class="max-w-xs rounded-lg overflow-hidden shadow-lg my-4">
-                        <img src="./images/" alt="Ian Marx" class="w-full h-32 object-cover">
+                        <img src="{% static 'images/ian_marx.jpg' %}" alt="Ian Marx" class="w-full h-45 object-cover">
                         <div class="px-6 py-4">
                             <h3 class="text-xl font-semibold">Ian Marx</h3>
                             <p class="text-gray-700">Backend Developer</p>
+                            <hr class="space-y-4">
                             <p class="text-gray-700">Ian Marx is more than just a Backend Engineer; he is a problem solver, a team player, and an integral part of our journey to excellence. His expertise, dedication, and collaborative spirit has left an indelible mark on our projects and the Afric-CRM family as a whole.</p>
                         </div>
                     </div>
