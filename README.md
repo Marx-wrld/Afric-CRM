@@ -50,6 +50,8 @@ STATICFILES_DIRS = [
 ]
 ```
 ### Layout
+![2023-10-04 09_45_26-](https://github.com/Marx-wrld/Afric-CRM/assets/105711066/b31c78ef-71ab-4991-9405-f42c281428c2)
+
 ![2023-10-04 09_38_17-](https://github.com/Marx-wrld/Afric-CRM/assets/105711066/ff98c4e8-7155-40da-ba28-c64746f7a193)
 
 ![2023-09-29 15_39_01-](https://github.com/Marx-wrld/Afric-CRM/assets/105711066/1fca42f3-8a8a-4a41-88bf-2fc56cf75a07)
