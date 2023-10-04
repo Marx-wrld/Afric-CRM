@@ -1,7 +1,79 @@
 {% extends 'core/base.html' %}
 
+{% load static %} <!--Loading the tailwind static files} -->
+
 {% block title %}About{% endblock %}
 
 {% block content %}
-    <h1 class="mt-3 mb-4 px-6 text-xl">About</h1>
+
+    <hr class="mb-2">
+    <body class="bg-gray-100">
+
+        <header class="text-black text-center py-4">
+            <h1 class="text-4xl font-semibold">About Afric-CRM</h1>
+        </header>
+
+        <main class="container mx-auto p-6">
+            <section id="overview" class="my-4">
+                <h2 class="text-2xl my-2 font-semibold">Overview</h2>
+                <p class="text-gray-700">
+                    Welcome to our Customer Relationship Management (CRM) system, where the art of nurturing leads and fostering client relationships meets the science of data-driven decision-making. We are passionate about helping businesses of all sizes streamline their sales processes, improve customer interactions, and ultimately, drive success. Let us introduce you to our CRM and how it can transform the way you manage leads and clients.
+                </p>
+            </section>
+
+            <section id="features" class="my-8">
+                <h2 class="text-2xl my-2 font-semibold">Key Features</h2>
+                <ul class="list-disc list-inside text-gray-700">
+                    <li>Efficient Lead Management: Easily capture, categorize, and nurture your leads through the entire sales funnel.</li>
+                    <li>Comprehensive Client Database: Maintain a comprehensive database of your clients with detailed profiles and communication history.</li>
+                    <li>Customizable Dashboards: Create personalized dashboards that provide real-time insights into your sales performance and client interactions.</li>
+                    <li>Automated Communication: Stay engaged with your leads and clients through automated emails, reminders, and follow-ups.</li>
+                    <li>Reports and Analytics: Generate reports that enable you to track your team's performance, identify trends, and make data-driven decisions.</li>
+                    <li>Security and Data Protection: We prioritize the security and privacy of your data, implementing the latest industry standards.</li>
+                </ul>
+            </section>
+
+            <section id="team" class="my-8">
+                <h2 class="text-2xl my-2 font-semibold">Our Team</h2>
+                <p class="text-gray-700">
+                    Our journey wouldn't be complete without introducing you to the dedicated individuals who bring our CRM system to life. Meet some of the key members of our team:
+                </p>
+                    <hr class="mb-5">
+                <div class="flex flex-wrap justify-center space-x-10">
+
+                    <div class="max-w-xs rounded-lg overflow-hidden shadow-lg my-4">
+                        <img src="{% static 'images/john_doe.jpg' %}" alt="John Doe" class="w-full h-45 object-cover">
+                        <div class="px-6 py-4">
+                            <h3 class="text-xl font-semibold">John Doe</h3>
+                            <p class="text-gray-700">CEO & Co-Founder</p>
+                            <hr class="space-y-4">
+                            <p class="text-gray-700">John is the driving force behind our CRM system. With years of experience in business development, he understands the critical role that relationships play in achieving business goals. His vision and commitment to excellence inspire our team to continually innovate.</p>
+                        </div>
+                    </div>
+
+                    <div class="max-w-xs rounded-lg overflow-hidden shadow-lg my-4">
+                        <img src="{% static 'images/jane_smith.jpg' %}" alt="Jane Smith" class="w-full h-43 object-cover">
+                        <div class="px-6 py-4">
+                            <h3 class="text-xl font-semibold">Jane Smith</h3>
+                            <p class="text-gray-700">Lead Developer</p>
+                            <hr class="space-y-4">
+                            <p class="text-gray-700">Jane leads our development team, turning innovative ideas into practical CRM solutions. Her technical expertise and passion for user experience ensure that our CRM system is not only powerful but also user-friendly.</p>
+                        </div>
+                    </div>
+
+                    <div class="max-w-xs rounded-lg overflow-hidden shadow-lg my-4">
+                        <img src="{% static 'images/ian_marx.jpg' %}" alt="Ian Marx" class="w-full h-45 object-cover">
+                        <div class="px-6 py-4">
+                            <h3 class="text-xl font-semibold">Ian Marx</h3>
+                            <p class="text-gray-700">Backend Developer</p>
+                            <hr class="space-y-4">
+                            <p class="text-gray-700">Ian Marx is more than just a Backend Engineer; he is a problem solver, a team player, and an integral part of our journey to excellence. His expertise, dedication, and collaborative spirit has left an indelible mark on our projects and the Afric-CRM family as a whole.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    </body>
+
 {% endblock %}

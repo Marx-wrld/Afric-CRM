@@ -67,7 +67,7 @@
                     <div class="bg-gray-100 py-6 px-6 rounded-xl">
                         <p class="mb-2"><strong>{{ file.created_by }}</strong>@ {{ file.created_at }}</p>
                         
-                        <a href="{{ file.file.url }}" target="_blank">Download</a>
+                        <button class="py-2 px-4 rounded-xl bg-sky-500 text-white"><a href="{{ file.file.url }}" target="_blank">Download</a></button>
 
                     </div>
                 {% endfor %}

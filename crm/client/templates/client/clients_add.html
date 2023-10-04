@@ -7,7 +7,7 @@
         <h1 class="mt-6 px-6 text-xl">Add Client</h1>
 
         {% if team.plan.max_clients > team.clients.all|length %}
-            <form action="." method="POST">
+            <form action="." method="POST" class="p-6">
                 {% csrf_token %}
 
                 {{ form.as_p }}

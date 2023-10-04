@@ -4,9 +4,9 @@
 
 {% block content %}
     <div>
-        <h1 class="text-xl">Edit Client</h1>
+        <h1 class="text-xl p-6">Edit Client</h1>
 
-        <form action="." method="POST">
+        <form action="." method="POST" class="p-6">
             {% csrf_token %}
 
             {{ form.as_p }}

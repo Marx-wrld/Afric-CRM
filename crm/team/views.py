@@ -16,8 +16,8 @@ def teams_list(request):
 @login_required
 def team_activate(request, pk):
     team = Team.objects.filter(members__in=[request.user]).get(pk=pk)
-    userprofile = request.user.profile
-    userprofile.team = team
+    userprofile = request.user.userprofile
+    userprofile.active_team = team
     userprofile.save()
 
     return redirect('team:detail', pk=pk)

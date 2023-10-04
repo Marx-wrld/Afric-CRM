@@ -4,16 +4,36 @@
 
 {% block content %}
     <div>
-        <h1 class="text-xl">{{ title }}</h1>
+        <h1 class="text-xl p-6">{{ title }}</h1>
 
         {% if team.plan.max_leads > team.leads.count or title == 'Edit Lead' %}
         <!-- checking how many leads we have for this team -->
         <!-- Total Leads: {{ team.leads.all|length }} -->
-            <form action="." method="POST">
+            <form action="." method="POST" class="mx-8">
                 {% csrf_token %}
+                
+                Name:
+                <div class="mb-6 my-4 w-full py-4 px-6 rounded-xl bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400">
+                    {{ form.name }}
+                  </div>
+                  Email:
+                  <div class="mb-6 my-4 w-full py-4 px-6 rounded-xl bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400">
+                    {{ form.email }}
+                  </div>
+                  Description:
+                  <div class="mb-6 my-4 w-full py-4 px-6 rounded-xl bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400">
+                    {{ form.description }}
+                  </div>
+                  Priority:
+                  <div class="mb-6 my-4 w-full py-4 px-6 rounded-xl bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400">
+                    {{ form.priority }}
+                  </div>
+                  Status:
+                  <div class="mb-6 my-4 w-full py-4 px-6 rounded-xl bg-gray-100 border border-gray-200 placeholder-gray-500 focus:outline-none focus:border-gray-400">
+                    {{ form.status }}
+                  </div>
 
-                {{ form.as_p }}
-
+                <hr class="mb-3">
                 <button class="py-4 px-8 bg-teal-500 text-white rounded-xl">
                     Submit
                 </button>

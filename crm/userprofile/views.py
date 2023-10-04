@@ -18,11 +18,11 @@ def signup(request):
             team.members.add(user) #adding the members
             team.save()
 
-            UserProfile.objects.create(user=user, team=team) #creating the user profile
+            UserProfile.objects.create(user=user, active_team=team) #creating the user profile
             
 
             #redirecting to the login page
-            return redirect('/log-in/')
+            return redirect('/login/')
     else: 
         form = SignUpForm()
     
@@ -30,7 +30,4 @@ def signup(request):
 
 @login_required
 def myaccount(request):
-    team = Team.objects.filter(created_by=request.user)[0]
-    return render(request, 'userprofile/myaccount.html', {
-        'team': team
-    })  
+    return render(request, 'userprofile/myaccount.html')  
