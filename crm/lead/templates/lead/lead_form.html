@@ -4,16 +4,17 @@
 
 {% block content %}
     <div>
-        <h1 class="text-xl">{{ title }}</h1>
+        <h1 class="text-xl p-6">{{ title }}</h1>
 
         {% if team.plan.max_leads > team.leads.count or title == 'Edit Lead' %}
         <!-- checking how many leads we have for this team -->
         <!-- Total Leads: {{ team.leads.all|length }} -->
-            <form action="." method="POST">
+            <form action="." method="POST" class="mx-6">
                 {% csrf_token %}
 
                 {{ form.as_p }}
 
+                <hr class="mb-3">
                 <button class="py-4 px-8 bg-teal-500 text-white rounded-xl">
                     Submit
                 </button>
