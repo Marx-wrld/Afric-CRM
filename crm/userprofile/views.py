@@ -14,8 +14,8 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             
-            team = Team.objects.create(name='The Team Name', created_by=user) #creating the team
-            team.members.add(user) #adding the members
+            team = Team.objects.create(name='The Team Name', created_by=request.user) #creating the team
+            team.members.add(request.user) #adding the members
             team.save()
 
             UserProfile.objects.create(user=user, team=team) #creating the user profile

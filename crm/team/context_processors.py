@@ -1,13 +1,12 @@
 from .models import Team
 
-def team(request):
+def active_team(request):
     if request.user.is_authenticated:
-        return {
-            'team': Team.objects.filter(members=request.user)[0]
-        }
+        active_team = request.user.userprofile.get_active_team()
+        
+        if not active_team:
+            active_team = Team.objects.filter(created_by=request.user)[0]
     else:
-        team = None
+        active_team = None
 
-    return {
-        'team': Team.objects.all()
-    }
+    return {'active_team': active_team}
