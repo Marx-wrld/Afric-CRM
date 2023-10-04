@@ -22,7 +22,7 @@ def signup(request):
             
 
             #redirecting to the login page
-            return redirect('/log-in/')
+            return redirect('/login/')
     else: 
         form = SignUpForm()
     
